@@ -1,0 +1,34 @@
+00:20:56  WARN[org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext:591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'errorPageCustomizer' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/error/ErrorMvcAutoConfiguration.class]: Unsatisfied dependency expressed through method 'errorPageCustomizer' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dispatcherServletRegistration' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration.class]: Unsatisfied dependency expressed through method 'dispatcherServletRegistration' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dispatcherServlet' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/DispatcherServletAutoConfiguration$DispatcherServletConfiguration.class]: Unsatisfied dependency expressed through method 'dispatcherServlet' parameter 0; nested exception is org.springframework.boot.context.properties.ConfigurationPropertiesBindException: Error creating bean with name 'spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties': Could not bind properties to 'WebMvcProperties' : prefix=spring.mvc, ignoreInvalidFields=false, ignoreUnknownFields=true; nested exception is org.springframework.boot.context.properties.bind.BindException: Failed to bind properties under 'spring.mvc.async' to org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties$Async
+00:20:56 ERROR[org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter:40] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'spring.mvc.async' to org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties$Async:
+
+    Reason: org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.lang.String] to type [org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties$Async]
+
+Action:
+
+Update your application's configuration
+
+00:23:58  WARN[org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext:591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'errorPageCustomizer' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/error/ErrorMvcAutoConfiguration.class]: Unsatisfied dependency expressed through method 'errorPageCustomizer' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dispatcherServletRegistration' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration.class]: Unsatisfied dependency expressed through method 'dispatcherServletRegistration' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dispatcherServlet' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/DispatcherServletAutoConfiguration$DispatcherServletConfiguration.class]: Unsatisfied dependency expressed through method 'dispatcherServlet' parameter 0; nested exception is org.springframework.boot.context.properties.ConfigurationPropertiesBindException: Error creating bean with name 'spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties': Could not bind properties to 'WebMvcProperties' : prefix=spring.mvc, ignoreInvalidFields=false, ignoreUnknownFields=true; nested exception is org.springframework.boot.context.properties.bind.BindException: Failed to bind properties under 'spring.mvc.async' to org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties$Async
+00:23:58 ERROR[org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter:40] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'spring.mvc.async' to org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties$Async:
+
+    Reason: org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.lang.String] to type [org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties$Async]
+
+Action:
+
+Update your application's configuration
+
