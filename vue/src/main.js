@@ -7,7 +7,7 @@ import '@/assets/css/global.css'
 import '@/assets/css/theme/index.css'
 import '@/assets/css/iconfont/iconfont.css'
 import 'highlight.js/styles/monokai-sublime.css'
-// import store from './store'
+import store from './store'
 import request from "@/utils/request";
 
 Vue.config.productionTip = false
@@ -19,5 +19,6 @@ Vue.use(ElementUI, {size: "small"})
 
 new Vue({
     router,
+    store ,
     render: h => h(App)
 }).$mount('#app')

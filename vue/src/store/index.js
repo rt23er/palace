@@ -1,13 +1,24 @@
-import { createStore, createLogger } from 'vuex'
+import Vue from 'vue'
+import Vuex from 'vuex'
 
+Vue.use(Vuex)
 
+export default new Vuex.Store({
 
-const debug = process.env.NODE_ENV !== 'production'
-
-export default createStore({
-    modules: {
-        user
+    state: {
+        show: false,
     },
-    strict: debug,
-    plugins: debug ? [createLogger()] : []
+    mutations: {
+        hide(state) {
+            state.show = false;
+        },
+        showing(state) {
+            state.show = true;
+        },
+    },
+    actions: {}
+
+
 })
+
+

@@ -42,6 +42,11 @@ const routes = [
       { path: 'activity', name: 'Activity', meta: { name: '活动中心' }, component: () => import('../views/front/Activity') },
       { path: 'activityDetail', name: 'ActivityDetail', meta: { name: '活动详情' }, component: () => import('../views/front/ActivityDetail') },
       { path: 'newBlog', name: 'NewBlog', meta: { name: '博客编辑' }, component: () => import('../views/front/NewBlog') },
+      { path: 'video', name: 'Video', meta: { name: '视频中心' }, component: () => import('../views/front/Video') },
+      { path: 'train', name: 'Train', meta: { name: '训练中心' }, component: () => import('../views/front/Training') },
+      { path: 'aiChat', name: 'AiChat', meta: { name: 'AI助手中心' }, component: () => import('../views/front/AIChat') },
+
+
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },
