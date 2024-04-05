@@ -35,7 +35,7 @@ public class VideoController {
      * 上传视频数据
      */
     @PostMapping( "/upload")
-    public void upload(Video video) {
+    public void upload(@RequestBody Video video) {
         videoServer.upload(video);
     }
 
@@ -53,8 +53,18 @@ public class VideoController {
      * @return
      */
     @GetMapping("/updateVideo")
-    public void update(Video video) {
+    public void update(@RequestBody Video video) {
         videoServer.update(video);
+    }
+
+    @DeleteMapping("/deleteById")
+    public void delete(String id){
+        videoServer.deleteById(id);
+    }
+
+    @GetMapping("selectByDes")
+    public Result selectByDes(String description){
+        return Result.success(videoServer.selectByDes(description));
     }
 
 }

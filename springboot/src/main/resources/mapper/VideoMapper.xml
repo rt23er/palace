@@ -37,5 +37,14 @@
         select * from t_video_info;
     </select>
 
+    <!--    按照视频描述模糊查询所有视频-->
+    <select id="selectByDes" resultMap="VideoMap">
+        select * from t_video_info where t_video_info.description like concat('%',#{description},'%');
+    </select>
+
+    <!--    按照Id删除视频-->
+    <select id="deleteById">
+        delete  from t_video_info where t_video_info.id = #{id};
+    </select>
 </mapper>
 

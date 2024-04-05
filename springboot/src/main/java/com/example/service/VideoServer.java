@@ -26,4 +26,12 @@ public class VideoServer {
     public List<Video> select() {
         return videoMapper.select();
     }
+
+    public void deleteById(String id) {
+        videoMapper.deleteById(id);
+    }
+
+    public List<Video> selectByDes(String description) {
+        return videoMapper.selectByDes(description);
+    }
 }

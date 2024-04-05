@@ -25,4 +25,8 @@ public interface VideoMapper {
      * @return
      */
     List<Video> select();
+
+    void deleteById(String id);
+
+    List<Video> selectByDes(String description);
 }
