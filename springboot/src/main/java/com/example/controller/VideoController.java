@@ -10,6 +10,7 @@ import com.example.common.Result;
 import com.example.entity.Image3D;
 import com.example.entity.Video;
 import com.example.service.ImageServer;
+import com.example.service.VideoServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -27,29 +28,33 @@ import java.util.UUID;
 public class VideoController {
 
 
+    @Autowired
+    VideoServer videoServer;
+
     /**
      * 上传视频数据
      */
     @PostMapping( "/upload")
-    public Result upload(Video video) {
-        return null;
+    public void upload(Video video) {
+        videoServer.upload(video);
     }
 
     /**
      * 查询所有视频
      */
-    @GetMapping("/getGroupImage")
+    @GetMapping("/getAllVideo")
     public Result select() {
-        return null;
+        List<Video> list = videoServer.select();
+        return Result.success(list);
     }
 
     /**
      * 更新视频数据
      * @return
      */
-    @GetMapping("/getGroupImage1")
-    public Result update(Video video) {
-        return null;
+    @GetMapping("/updateVideo")
+    public void update(Video video) {
+        videoServer.update(video);
     }
 
 }

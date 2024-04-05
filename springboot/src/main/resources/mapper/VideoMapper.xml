@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.VideoMapper">
+
+    <resultMap type="com.example.entity.Video" id="VideoMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="videoName" column="video_name" jdbcType="VARCHAR"/>
+        <result property="videoPath" column="video_path" jdbcType="VARCHAR"/>
+        <result property="videoPng" column="video_png" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+<!-- 上传视频-->
+    <insert id="insert" parameterType="com.example.entity.Video">
+        INSERT INTO t_video_info (id,video_name, video_path, video_png, create_time, update_time, description)
+        VALUES (#{id},#{videoName}, #{videoPath}, #{videoPng}, #{createTime}, #{updateTime}, #{description})
+    </insert>
+
+<!--    更新视频-->
+    <update id="update" parameterType="com.example.entity.Video">
+        UPDATE t_video_info
+        SET
+            video_name = #{videoName},
+            video_path = #{videoPath},
+            video_png = #{videoPng},
+            create_time = #{createTime},
+            update_time = #{updateTime},
+            description = #{description}
+        WHERE id = #{id}
+    </update>
+
+
+    <!--    查询所有视频-->
+    <select id="select" resultMap="VideoMap">
+        select * from t_video_info;
+    </select>
+
+</mapper>
+
