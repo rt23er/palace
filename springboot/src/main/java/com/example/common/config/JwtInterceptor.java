@@ -20,6 +20,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Pattern;
 
 /**
  * jwt拦截器
@@ -44,7 +45,20 @@ public class JwtInterceptor implements HandlerInterceptor {
             token = request.getParameter(Constants.TOKEN);
         }
         // 2. 开始执行认证
+
         if (ObjectUtil.isEmpty(token)) {
+            String url = request.getRequestURI();
+            String pattern = "^/swagger-ui/.*"; // 正则表达式
+            String pattern2 = "^/webjars/.*";
+            String pattern3 = "^/swagger-resources/.*";
+// 使用正则表达式进行匹配
+            boolean matches = Pattern.matches(pattern, url);
+            boolean matches2 = Pattern.matches(pattern2, url);
+            boolean matches3 = Pattern.matches(pattern3, url);
+            if(matches||url.equals("/doc.html")
+                    ||matches2||matches3){
+                return true;
+            }
             throw new CustomException(ResultCodeEnum.TOKEN_INVALID_ERROR);
         }
         Account account = null;

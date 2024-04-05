@@ -1,5 +1,5 @@
 <template>
-   <div  class="AI">
+   <div  class="AI" ref="AIBar">
         <div class="left" >
 <!--             AI图标-->
             <div class="Aicon"> <i class="iconfont icon-chatgpt"></i></div>
@@ -17,8 +17,11 @@
         </div>
        <div class="newChat">
            <div class="creatChat">新建对话</div>
-           <div class="chat" >
-             <li  ></li>
+           <div class="chat hide_scrollbar"  @scroll="stopTimmer">
+             <li v-for="(item , index) in userChats"  :index="item.userID">
+               <i c></i>   <span> {{item.userMessage}}</span>
+
+             </li>
 
            </div>
            <div class="share">
@@ -29,24 +32,34 @@
            </div>
        </div>
        <div class="main">
-             <div class="chats">
-                 <div class="gchat">
-                     <div v-for="(message, index) in messages" :key="index" class="message">
-                         {{ message }}
+             <div class="chats hide_scrollbar" @scroll="stopTimmer"  ref="My_chats">
+                 <div class="gchat" >
+                     <div v-for="(message, index) in userChats" :key="index" class="message">
+<!--                         问题-->
+                        <div class="userChat">
+                            <div class="markdown-body" v-html="message.userMessage" />
+                        </div>
+<!--                          Ai-->
+                         <div class="AIChat">
+                             <div class="markdown-body" v-html="message.answer" />
+                         </div>
+
                      </div>
                  </div>
+
              </div>
              <div class="post">
 
                  <input placeholder="请输入你的问题" type="text" v-model="newMessage">
-                 <i @click="sendMessage">发送信息</i>
+                 <i @click="sendMessage"  class="iconfont icon-send"></i>
              </div>
        </div>
    </div>
 </template>
 
 <script>
-import {test} from "@/api/ai";
+import {hisData, test} from "@/api/ai";
+import "./github-markdown.css"
 export default {
     name: "AIChat" ,
     data() {
@@ -56,7 +69,11 @@ export default {
             messages: [],
             newMessage: '',
             userMessages: {},
-            chatHistory: null
+            chatHistory: null,
+            userChats:{} ,
+            UserId:'' ,
+            // 定时器
+            timmer:'',
         }
     } ,
     computed:{
@@ -64,29 +81,91 @@ export default {
         //     return false ;
         // }
     } ,
+    mounted() {
+        const user =  JSON.parse(localStorage.getItem('xm-user'))
+        this.UserId = user.id
+        console.log(user.id)
+        this.init(user.id)
+
+     //设置定时函数让页面滚动到底部
+        this.startTimmer()
+
+    } ,
     methods:{
+        // 开启页面滚动
+        startTimmer() {
+            this.timmer =  setInterval(()=>{
+                this.scrollToBottom()
+            } ,2000)
+        } ,
+
+        stopTimmer() {
+            clearInterval(this.timmer)
+        }
+        ,
+
+        async init (id) {
+            //同步获取用户信息
+            this.userChats= await this.getHistoryData(id)
+            console.log(this.userChats)
+           // this.$nextTick(()=>{
+           //     console.log(userInfo)
+           // })
+        },
+
         trigger() {
           this.Ishow = !this.Ishow
         } ,
-        sendMessage() {
+      async  sendMessage() {
             if (this.newMessage.trim() !== '') {
                 this.messages.push(`You: ${this.newMessage}`)
                 // const encodedMessage = encodeURIComponent(this.newMessage) // 对消息进行URL编码
                 test({
                     question: this.newMessage // 发送编码后的消息
                 }).then(response => {
+                    this.startTimmer()
                     // 接受返回的名称
                     const { data } = response
                     this.messages.push(`ChatGPT: ${data}`)
+                    this.getHistoryData(this.UserId)
 
                 }).catch(_error => {
+                    this.startTimmer()
                     this.messages.push(`ChatGPT: 服务异常！`)
 
                 })
                 this.newMessage = ''
             }
         },
-    }
+       async  getHistoryData(id) {
+              hisData({
+              id:id
+            } ).then(res=>{
+                //  近10条记录
+
+                console.log(res.data)
+                 this.userChats  = res.data
+                return (res.data)
+
+            }).catch()
+        }
+
+      ,
+
+        scrollToBottom() {
+            this.$refs.My_chats.scrollTop = this.$refs.My_chats.scrollHeight ;
+            //聊天区域高度
+            console.log("聊天区域高度——---------------！！！！！！！！")
+            console.log(this.$refs.My_chats.scrollHeight)
+            // 将滚动条滚动到底部
+            this.$refs.AIBar.scrollTop = this.$refs.AIBar.scrollHeight;
+
+        }
+      ,
+
+
+    } ,
+
 }
 </script>
 
@@ -159,6 +238,7 @@ export default {
 
     }
     .newChat {
+        padding: 2vw;
         display: flex;
         flex-direction: column;
         text-align: center;
@@ -167,13 +247,30 @@ export default {
       background: rgb(0, 0, 0);
       .creatChat {
         color: white;
+        margin-top: 4vh;
+        margin-bottom: 4vh;
+      }
+      .chat {
+
+        height: 50vh;
+        color: #ffffff;
+        li{
+          margin: 0vh;
+          padding: 0.7vh;
+          &:hover{
+            background: #9f9f95;
+          }
+        }
 
       }
+
       .share {
-       transform: translateY(70vh);
+       transform: translateY(20vh);
+        position: sticky;
       }
       .more {
-        transform: translateY(75vh);
+        transform: translateY(22vh);
+        position: sticky;
       }
     }
     .main {
@@ -181,52 +278,71 @@ export default {
         width: 80vw;
       position: relative;
        .post {
+         display: inline-flex;
+         flex-direction: row;
          width: 100%;
          height: 10vh;
          position: absolute;
          bottom: 0;
          color: gray;
          background: gray;
-         i{
-           font-size: 40px;
-           bottom: 20px;
-           width: 100px;
-           background: yellow;
+         //i{
+         //  font-size: 40px;
+         //  bottom: 20px;
+         //  width: 100px;
+         //  background: yellow;
+         //}
+         .icon-send {
+           font-size: 5vh;
+           color: #13ce66;
+           line-height: 10vh;
+           transform: translateX(-10vw);
          }
          input {
            width: 80%;
+           height: 5vh;
            text-align: left;
            padding: 1vh;
-           margin: 0 auto;
+           margin: 2vh auto;
            display: block;
            outline: none;
          }
        }
        .chats {
          height: 80vh;
-         overflow: auto ;
          .gchat {
-           height: 2000px;
+
            width: 75vw;
-           border: 1px solid pink;
+           //border: 1px solid pink;
+           margin: 0 auto;
+           .AIChat {
+             background: rgb(238, 238, 238);
+             min-height: 10vh;
+           }
+           .userChat {
+             min-height: 5vh;
+           }
+         }
+
+         .chat3 {
+           //height: 2000px;
+           width: 75vw;
+          background: #13ce66;
            margin: 0 auto;
          }
-         .chats::-webkit-scrollbar {
-           width: 10px; /* 设置滚动条宽度 */
-         }
-
-         .chats::-webkit-scrollbar-thumb {
-           background-color: #c24141; /* 设置滚动条thumb的背景色 */
-           border-radius: 5px; /* 设置圆角 */
-         }
-
-         .chats::-webkit-scrollbar-track {
-           background-color: #f1f1f1; /* 设置滚动条track的背景色 */
-         }
-
 
        }
     }
+    .hide_scrollbar{
+      overflow: auto;
+      /* 兼容ie */
+      -ms-overflow-style: none;
+      /* 兼容firfox */
+      scrollbar-width: none;
+    }
 
+    .hide_scrollbar::-webkit-scrollbar {
+      display: none;
+    }
 
 </style>

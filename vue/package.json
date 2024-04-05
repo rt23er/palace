@@ -10,6 +10,7 @@
     "axios": "^1.5.1",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.14",
+    "github-markdown-css": "^5.5.1",
     "highlight.js": "^11.9.0",
     "js-cookie": "^3.0.5",
     "node-sass": "^9.0.0",

@@ -18,11 +18,10 @@
     </insert>
 
     <select id="selectStateByUserId" resultMap="AigcMap">
-        SELECT a.message,a.answer,a.Creat_date
+        SELECT a.Ai_id,a.User_id,a.message,a.answer,a.Creat_date
         FROM ai AS a
         WHERE a.User_id= #{UserID}
         ORDER BY a.Creat_date DESC LIMIT 10
     </select>
-
 </mapper>
 
