@@ -24,7 +24,7 @@ public class TokenizationQuickStart {
 
     public static void main(String[] args)  throws ApiException, NoApiKeyException, InputRequiredException, IOException {
 
-        String ApiKey = "sk-25ad0ef6243549cdacb35e7e49d099d9";
+        String ApiKey = "my_key_key";
         Constants.apiKey=ApiKey;
 
         Generation gen = new Generation();
