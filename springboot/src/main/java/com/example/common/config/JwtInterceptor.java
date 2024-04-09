@@ -51,12 +51,14 @@ public class JwtInterceptor implements HandlerInterceptor {
             String pattern = "^/swagger-ui/.*"; // 正则表达式
             String pattern2 = "^/webjars/.*";
             String pattern3 = "^/swagger-resources/.*";
+            String pattern4 = "^/Video/.*";
 // 使用正则表达式进行匹配
             boolean matches = Pattern.matches(pattern, url);
             boolean matches2 = Pattern.matches(pattern2, url);
             boolean matches3 = Pattern.matches(pattern3, url);
+            boolean matches4 = Pattern.matches(pattern4, url);
             if(matches||url.equals("/doc.html")
-                    ||matches2||matches3){
+                    ||matches2||matches3||matches4){
                 return true;
             }
             throw new CustomException(ResultCodeEnum.TOKEN_INVALID_ERROR);

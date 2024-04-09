@@ -18,7 +18,7 @@ Vue.prototype.$baseUrl = process.env.VUE_APP_BASEURL
 Vue.use(ElementUI, {size: "small"})
 
 new Vue({
+    store,
     router,
-    store ,
     render: h => h(App)
 }).$mount('#app')

@@ -1,24 +1,13 @@
 package com.example.controller;
 
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.lang.Dict;
-import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.core.util.StrUtil;
 import com.example.common.Result;
-import com.example.entity.Image3D;
 import com.example.entity.Video;
-import com.example.service.ImageServer;
 import com.example.service.VideoServer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 视频接口
@@ -26,8 +15,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/Video")
 public class VideoController {
-
-
     @Autowired
     VideoServer videoServer;
 
@@ -50,18 +37,38 @@ public class VideoController {
 
     /**
      * 更新视频数据
+     *
      * @return
      */
-    @GetMapping("/updateVideo")
-    public void update(@RequestBody Video video) {
+    @PostMapping("/updateVideo")
+    public Result update(@RequestBody Video video) {
         videoServer.update(video);
+        return Result.success() ;
     }
 
+    /**
+     * 按照id删除照片
+     * @param id
+     */
     @DeleteMapping("/deleteById")
     public void delete(String id){
         videoServer.deleteById(id);
     }
 
+    /**
+     * 按照id列表批量删除照片
+     * @param id
+     */
+    @DeleteMapping("/deleteByIdList")
+    public void delete(List<String> id){
+        videoServer.deleteByIdList(id);
+    }
+
+    /**
+     * 按照描述模糊搜索
+     * @param description
+     * @return
+     */
     @GetMapping("selectByDes")
     public Result selectByDes(String description){
         return Result.success(videoServer.selectByDes(description));

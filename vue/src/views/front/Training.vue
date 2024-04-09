@@ -11,8 +11,10 @@
 export default {
     name: "Training" ,
     methods:{
+        // 通过编程式路由跳转到主页
         back() {
-            window.open("./home")
+            this.$router.push({ name:'Home' })
+
         }
     }
 }

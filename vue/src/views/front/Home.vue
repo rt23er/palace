@@ -149,7 +149,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .category-item {
     text-align: center;
     padding: 10px 0;
@@ -174,7 +174,8 @@ export default {
 .left_card {
     display: flex;
     position: absolute;
-    background: rgba(113, 225, 121, 0.8);
+    background: linear-gradient(to right, rgba(74, 116, 157, 0.8), rgba(333,444,33,0.9));
+    border-radius: 2px;
     top: 4vh;
     width: 80vw;
     margin: 0 auto;

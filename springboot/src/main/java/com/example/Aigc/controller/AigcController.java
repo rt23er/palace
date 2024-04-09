@@ -24,13 +24,13 @@ public class AigcController {
     @Resource
     AigcService aigcService;
 
-
+// 问答
     @RequestMapping(value = "/test",method = RequestMethod.POST)
     public Result AI(@RequestBody AiQuestion Question,String id) throws NoApiKeyException, InputRequiredException, IOException {
         return aigcService.getAnswer(Question,"13");
     }
 
-
+//查询历史记录
     @RequestMapping(value = "/hisData",method = RequestMethod.GET)
     public Result getHIstoryData(String id){
         String userId = id;

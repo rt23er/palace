@@ -25,6 +25,7 @@ const routes = [
       { path: 'user', name: 'User', meta: { name: '用户信息' }, component: () => import('../views/manager/User') },
       { path: 'category', name: 'Category', meta: { name: '博客分类' }, component: () => import('../views/manager/Category') },
       { path: 'blog', name: 'Blog', meta: { name: '博客信息' }, component: () => import('../views/manager/Blog') },
+      { path: 'videoManage', name: 'videoManage', meta: { name: '视频管理' }, component: () => import('../views/manager/VideoManage.vue') },
       { path: 'activity', name: 'Activity', meta: { name: '活动信息' }, component: () => import('../views/manager/Activity') },
       { path: 'comment', name: 'Comment', meta: { name: '评论信息' }, component: () => import('../views/manager/Comment') },
       { path: 'activitySign', name: 'ActivitySign', meta: { name: '活动报名' }, component: () => import('../views/manager/ActivitySign') },

@@ -31,12 +31,10 @@
         WHERE id = #{id}
     </update>
 
-
     <!--    查询所有视频-->
     <select id="select" resultMap="VideoMap">
-        select * from t_video_info;
+        select * from t_video_info order by t_video_info.create_time desc;
     </select>
-
     <!--    按照视频描述模糊查询所有视频-->
     <select id="selectByDes" resultMap="VideoMap">
         select * from t_video_info where t_video_info.description like concat('%',#{description},'%');

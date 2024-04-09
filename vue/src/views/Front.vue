@@ -9,16 +9,17 @@
             </div>
             <div class="front-header-center">
                 <div class="front-header-nav">
-                    <el-menu :default-active="$route.path" mode="horizontal" router>
+                    <el-menu  :default-active="$route.path" mode="horizontal" router>
                         <el-menu-item index="/front/home" @click="CardShow">首页</el-menu-item>
                         <el-menu-item index="/front/activity">活动中心</el-menu-item>
                         <el-menu-item index="/front/person">个人中心</el-menu-item>
                         <el-menu-item index="/front/video">视频中心</el-menu-item>
                         <el-menu-item index="/front/aiChat">AI助手</el-menu-item>
-                        <el-menu-item index="/front/train">训练中心</el-menu-item>
+                        <el-menu-item index="/front/train" >训练中心</el-menu-item>
                     </el-menu>
                 </div>
             </div>
+
             <div>
                 <el-input style="width: 260px; margin-right: 10px" placeholder="请输入关键字搜索" v-model="title"
                           clearable></el-input>
@@ -106,12 +107,45 @@ export default {
             localStorage.removeItem("xm-user");
             this.$router.push("/loginRegister");
         },
-    }
+
+    } ,
+    beforeRouteEnter(to,from,next){
+        if (to.path =='train')
+        {
+            alert(11)
+        }
+        next()
+    },
+    beforeRouteLeave(to ,from ,next) {
+        if (to.path =='train')
+        {
+            alert(11)
+        }
+        next()
+    },
+    // router.
+
+
 
 }
 </script>
 
-<style >
+<style  lang="scss" scoped>
 @import "@/assets/css/front.css";
+.front-header{
+    background: linear-gradient(45deg, rgba(85, 157, 74, 0.8), rgba(31, 175, 120, 0.9));
+    .front-header-center {
+        background: transparent !important;
+        .front-header-nav {
+            background: transparent !important;
+            .el-menu--horizontal.el-menu{
+                background: transparent !important;
+            }
+            .el-menu-item.is-active {
+                background: rgba(4, 103, 203, 0.6) !important;
+            }
+        }
 
+    }
+}
 </style>
