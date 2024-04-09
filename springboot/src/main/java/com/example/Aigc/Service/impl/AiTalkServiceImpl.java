@@ -22,7 +22,7 @@ public class AiTalkServiceImpl implements AiTalkService {
     public Result test(MessageManager message) throws NoApiKeyException, InputRequiredException, IOException {
         //todo 调用Apikey
 
-        String ApiKey = "sk-25ad0ef6243549cdacb35e7e49d099d9";
+        String ApiKey = "my-key-key";
         Constants.apiKey=ApiKey;
 
         Generation gen = new Generation();
