@@ -65,6 +65,7 @@
 import {hisData, test} from "@/api/ai";
 import {marked} from "marked";
 
+
 export default {
     name:'AiChat' ,
     data() {
