@@ -8,6 +8,7 @@
              <videoU  :videoSrc="item.videoPath"   :coverImage ="item.videoPng"/>
         </div>
 
+
     </div>
 
 </template>
