@@ -1,8 +1,11 @@
 <template>
     <div class="my">
+
+<!--        轮播图-->
+
+
         <div v-for="(item ,index) in videoList"  class="videItem" :key="index" @click="expandVideo(index)">
              <videoU  :videoSrc="item.videoPath"   :coverImage ="item.videoPng"/>
-
         </div>
 
     </div>

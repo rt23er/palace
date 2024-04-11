@@ -20,9 +20,9 @@
         <div class="newChat">
             <div class="creatChat">新建对话</div>
             <div class="chat hide_scrollbar" @scroll="stopTimmer">
-                <li v-for="(item , index) in userChats" :index="item.userID" class="chat-history-item">
-                    <i class="iconfont icon-duihua"></i> <span
-                        class="chat-history-message"> {{ item.userMessage }}</span>
+                <li v-for="(item , index) in userChats" :index="index" class="chat-history-item">
+                    <i class="iconfont icon-duihua"></i>
+                    <a  :href="`#mes${index}`" class="chat-history-message">{{ item.userMessage }}</a>
 
                 </li>
 
@@ -38,14 +38,16 @@
         <div class="main">
             <div class="chats hide_scrollbar" @scroll="stopTimmer" ref="My_chats">
                 <div class="gchat">
-                    <div v-for="(message, index) in userChats" :key="index" class="message">
+                    <div v-for="(message, index) in messages" :key="index" class="message">
                         <!--                         问题-->
-                        <div class="userChat">
-                            <div class="markdown-body" v-html="mark_m(message.userMessage)"/>
+                        <div class="userChat" :ref="'#mes' + index">
+                            <i class="iconfont icon-U"></i>
+                            <div class="markdown-body" v-html="mark_m(messages[index])"/>
                         </div>
                         <!--                          Ai-->
-                        <div class="AIChat">
-                            <div class="markdown-body" v-html="mark_m(message.answer)"/>
+                        <div class="AIChat" v-if="Gmessages[index]!== undefined">
+                            <i class="iconfont icon-G"></i>
+                            <div class="markdown-body" v-html="mark_m(Gmessages[index])"/>
                         </div>
 
                     </div>
@@ -64,15 +66,17 @@
 <script>
 import {hisData, test} from "@/api/ai";
 import {marked} from "marked";
-
+//引入github的markdown 样式
+import 'github-markdown-css/github-markdown.css'
 
 export default {
-    name:'AiChat' ,
+    name: 'AiChat',
     data() {
         return {
             characters: ['李白', '音乐人', '记忆大师'],
             Ishow: false,
             messages: [],
+            Gmessages: [],
             newMessage: '',
             userMessages: {},
             chatHistory: null,
@@ -80,13 +84,18 @@ export default {
             UserId: '',
             // 定时器
             timmer: '',
+            chat: {
+                userMessage: null,
+                userID: null,
+                creatDate: null,
+                answer: null,
+                aiID: null
+
+            }
+            ,
         }
     },
-    computed: {
-        // Ishow() {
-        //     return false ;
-        // }
-    },
+
     beforeRouteLeave(to, from, next) {
         // 在离开当前路由前停止定时器
         clearInterval(this.timmer);
@@ -94,18 +103,56 @@ export default {
     }
     ,
     mounted() {
+
         const user = JSON.parse(localStorage.getItem('xm-user'))
         this.UserId = user.id
         console.log(user.id)
         this.init(user.id)
 
         //设置定时函数让页面滚动到底部
-        this.$nextTick(() => {
+        setTimeout(() => {
             this.startTimmer()
-        })
+            this.goChat()
+        }, 200)
 
+        this.$nextTick(()=>{
+
+
+
+        })
+        // 页面加载时滚动到底部
     },
     methods: {
+
+        // 跳转
+        goChat() {
+            clearInterval(this.timmer)
+            const sidebarLinks = document.querySelectorAll('.chat-history-item a');
+            //在事件对象内部找不到vue实例
+           let vm = this ;
+            sidebarLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // 阻止默认行为（跳转）
+                    //获取目标消息ID
+                    const targetId = this.getAttribute('href'); // 获取目标消息的ID
+                    console.log(targetId)
+                    console.log(vm.$refs['mes0']);
+                    const targetMessage = vm.$refs[targetId][0]; // 获取目标消息的DOM元素
+                    // this.$refs[targetId].scrollIntoView({ behavior: 'smooth', block: 'start' }); // 滚动到目标消息
+                    // 滚动到目标消息
+                    console.log(targetMessage)
+                    if (targetMessage) {
+                        // 使用scrollIntoView方法滚动到目标消息
+                        targetMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+
+        }
+
+    ,
+
         mark_m(s) {
             let md = marked(s)
             return md
@@ -124,8 +171,14 @@ export default {
 
         async init(id) {
             //同步获取用户信息
-            this.userChats = await this.getHistoryData(id)
+            this.userChats = await this.getHistoryData(id).then(res => {
+
+            })
+            // 将用户聊天的问题存储到message
+
             console.log(this.userChats)
+
+
             // this.$nextTick(()=>{
             //     console.log(userInfo)
             // })
@@ -136,23 +189,53 @@ export default {
         },
         async sendMessage() {
             if (this.newMessage.trim() !== '') {
-                this.messages.push(`You: ${this.newMessage}`)
-                // const encodedMessage = encodeURIComponent(this.newMessage) // 对消息进行URL编码
+                let L = this.messages.length
+                this.$set(this.messages, L, this.newMessage,);
+                this.startTimmer();
+
+                // this.messages.push(`You: ${this.newMessage}`)
+
+                console.log(this.messages)
+                console.log(this.newMessage)
+                const encodedMessage = encodeURIComponent(this.newMessage) // 对消息进行URL编码
+
+                // 发送消息到后端
                 test({
+
+                    id: `${this.UserId}`,
                     question: this.newMessage // 发送编码后的消息
                 }).then(response => {
                     this.startTimmer()
                     // 接受返回的名称
                     const {data} = response
-                    this.messages.push(`ChatGPT: ${data}`)
-                    this.getHistoryData(this.UserId)
+                    this.Gmessages.push(`ChatGPT: ${data}`)
+                    // this.getHistoryData(this.UserId)
+                    console.log(this.newMessage)
+                    if (this.userChats.length === 10) {
+                        // this.userChats.shift()
+                        let L = this.userChats.length
+                        // console.log("信息系"+this.newMessage)
+                        this.chat.userMessage = this.newMessage
+                        this.$set(this.userChats, L, this.chat,);
+                        console.log(this.userChats)
+
+
+                    } else {
+                        let L = this.userChats.length
+                        this.chat.userMessage = this.newMessage
+                        this.$set(this.userChats, L, this.chat,);
+                        console.log(this.userChats)
+
+                    }
+
+                    this.newMessage = ''
 
                 }).catch(_error => {
                     this.startTimmer()
-                    this.messages.push(`ChatGPT: 服务异常！`)
+                    this.Gmessages.push(`ChatGPT: 服务异常！`)
 
                 })
-                this.newMessage = ''
+
             }
         },
         async getHistoryData(id) {
@@ -163,6 +246,15 @@ export default {
 
                 console.log(res.data)
                 this.userChats = res.data
+
+                for (let i = 0; i < this.userChats.length; i++) {
+                    this.messages.push(`User: ${this.userChats[i].userMessage}`)
+                }
+                console.log(this.messages)
+                for (let i = 0; i < this.userChats.length; i++) {
+                    this.Gmessages.push(`ChatGPT: ${this.userChats[i].answer}`)
+                }
+                console.log(this.Gmessages)
                 return (res.data)
 
             }).catch()
@@ -171,13 +263,15 @@ export default {
         ,
 
         scrollToBottom() {
-            //  聊天区域滚动
-            this.$refs.My_chats.scrollTop = this.$refs.My_chats.scrollHeight;
-            //聊天区域高度
-            console.log("聊天区域高度——---------------！！！！！！！！")
-            console.log(this.$refs.My_chats.scrollHeight)
-            // 将滚动条滚动到底部
-            this.$refs.AIBar.scrollTop = this.$refs.AIBar.scrollHeight;
+            setTimeout(() => {
+                //  聊天区域滚动
+                this.$refs.My_chats.scrollTop = this.$refs.My_chats.scrollHeight;
+                //聊天区域高度
+                console.log("聊天区域高度——---------------！！！！！！！！")
+                console.log(this.$refs.My_chats.scrollHeight)
+                // 将滚动条滚动到底部
+                this.$refs.AIBar.scrollTop = this.$refs.AIBar.scrollHeight;
+            })
 
 
         }
@@ -190,13 +284,50 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+a{
+    text-decoration: none;
+    color: #ded7d7;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 .AI {
 
   display: flex;
   /*flex-direction: column;*/
   flex-wrap: nowrap;
 
+  .icon-U {
+    font-size: 3vw;
+    transform: translateY(0.8vh);
+    position: absolute;
+  }
 
+  .icon-G {
+    font-size: 3vw;
+    transform: translateY(0.8vh);
+    position: absolute;
+    color: yellow !important;
+
+  }
+
+}
+
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+  background: rgba(161, 218, 218, 0.8);
+  color: #000b17;
+}
+
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 15px;
+  }
 }
 
 .left, .newChat, .main {
@@ -376,11 +507,17 @@ export default {
         padding: 3vw;
         background: rgb(238, 238, 238);
         min-height: 10vh;
+        position: relative;
+
+
       }
 
       .userChat {
         padding: 3vw;
         min-height: 5vh;
+        position: relative;
+
+
       }
     }
 

@@ -26,8 +26,9 @@ public class AigcController {
 
 // 问答
     @RequestMapping(value = "/test",method = RequestMethod.POST)
-    public Result AI(@RequestBody AiQuestion Question,String id) throws NoApiKeyException, InputRequiredException, IOException {
-        return aigcService.getAnswer(Question,"13");
+    public Result AI(@RequestBody AiQuestion Question) throws NoApiKeyException, InputRequiredException, IOException {
+
+        return aigcService.getAnswer(Question, Question.getId());
     }
 
 //查询历史记录

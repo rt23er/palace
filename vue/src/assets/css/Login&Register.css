@@ -1,9 +1,10 @@
 :root {
     /* 颜色设置 */
-    --white: #e9e9e9;
+    --white: rgba(252, 249, 249, 0.1);
+    --whitetext: rgba(241, 232, 232, 0.6);
     --gray: #333;
     --blue: #0367a6;
-    --lightblue: #008997;
+    --lightblue: #3eb5bd;
     /* 按钮样式 */
     --button-radius: 0.7rem;
     --max-width: 758px;
@@ -17,7 +18,7 @@
 #rg {
     align-items: center;
     background-color: var(--white);
-    background: url(../imgs/b1.png);
+    /*background: url(../imgs/b1.png);*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -25,8 +26,8 @@
     height: 100vh;
     place-items: center;
 }
-container right-panel-active {
-    background: #2a60c9;
+.container .right-panel-active {
+    background: transparent;
 }
 .from_titile {
     font-weight: 300;
@@ -169,7 +170,7 @@ container right-panel-active {
     background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%);
     border-radius: 20px;
     border: 1px solid var(--blue);
-    color: var(--white);
+    color: var(--whitetext);
     cursor: pointer;
     font-size: 0.8rem;
     font-weight: bold;

@@ -12,8 +12,11 @@ import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.alibaba.dashscope.utils.Constants;
+import com.example.Aigc.config.AiConfig;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,10 +25,11 @@ import java.util.ResourceBundle;
 @Service
 public class TokenizationQuickStart {
 
+
     public static void main(String[] args)  throws ApiException, NoApiKeyException, InputRequiredException, IOException {
 
-        String ApiKey = "my-key-key";
-        Constants.apiKey=ApiKey;
+//        String ApiKey = ;
+//        Constants.apiKey=ApiKey;
 
         Generation gen = new Generation();
         MessageManager msgManager = new MessageManager(10);

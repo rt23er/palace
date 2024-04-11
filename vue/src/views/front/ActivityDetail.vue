@@ -8,7 +8,7 @@
           <div style="font-weight: bold; font-size: 24px; margin-bottom: 10px">{{ activity.name }}</div>
           <div style="color: #666; font-size: 13px; line-height: 22px; text-align: justify; margin-bottom: 10px">{{ activity.descr }}</div>
           <div style="color: #666; margin-bottom: 10px"><i class="el-icon-date"></i> 时间 <span style="margin-left: 5px">{{ activity.start }} ~ {{ activity.end }}</span></div>
-          <div style="color: #666; margin-bottom: 10px"><i class="el-icon-location"></i> 地址
+          <div style="color: #666; margin-left: 5vw; margin-bottom: 10px"><i class="el-icon-location"></i> 地址
             <a style="color: #2a60c9; margin-left: 5px" :href="activity.address" v-if="activity.form === '线上'">{{ activity.address }}</a>
             <span style="margin-left: 5px" v-else>{{ activity.address }}</span>
             <el-tag style="margin-left: 5px" type="primary" size="mini">{{ activity.form }}</el-tag>
@@ -46,17 +46,18 @@
     </div>
 
     <div>
-      <Comment :fid="activityId" module="活动" />
+      <leave_word :fid="activityId" module="活动" />
     </div>
 
   </div>
 </template>
 
 <script>
-import Comment from "@/components/Comment";
+// import Comment from "@/components/Comment";
+import leave_word from "@/components/leave_word.vue";
 export default {
   name: "ActivityDetail",
-  components: {Comment},
+  components: {leave_word},
   data() {
     return {
       activity: {},

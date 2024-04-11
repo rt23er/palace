@@ -13,7 +13,7 @@ export default {
     methods:{
         // 通过编程式路由跳转到主页
         back() {
-            this.$router.push({ name:'Home' })
+            this.$router.push({ name:'Train' })
 
         }
     }

@@ -8,21 +8,25 @@ import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.alibaba.dashscope.utils.Constants;
 import com.example.Aigc.Service.AiTalkService;
+import com.example.Aigc.config.AiConfig;
 import com.example.common.Result;
 import org.springframework.stereotype.Service;
 
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
 @Service
 public class AiTalkServiceImpl implements AiTalkService {
 
+    @Resource
+    AiConfig aiConfig;
+
     @Override
     public Result test(MessageManager message) throws NoApiKeyException, InputRequiredException, IOException {
         //todo 调用Apikey
-
-        String ApiKey = "my-key-key";
+        String ApiKey = aiConfig.getApiKey();
         Constants.apiKey=ApiKey;
 
         Generation gen = new Generation();

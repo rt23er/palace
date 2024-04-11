@@ -54,6 +54,7 @@
         left join activity
         on likes.fid = activity.id
         <where>
+            AND activity.id IS NOT NULL -- 确保 activity 表中有与 like 表匹配的记录
             and likes.module = '活动'
             <if test="name != null"> and activity.name like concat('%', #{name}, '%')</if>
             <if test="userId != null">  and likes.user_id = #{userId}</if>
@@ -69,6 +70,7 @@
         on collect.fid = activity.id
         <where>
             and collect.module = '活动'
+            AND activity.id IS NOT NULL -- 确保 activity 表中有与 collect 表匹配的记录
             <if test="name != null"> and activity.name like concat('%', #{name}, '%')</if>
             <if test="userId != null">  and collect.user_id = #{userId}</if>
         </where>
@@ -82,7 +84,9 @@
         left join activity
         on comment.fid = activity.id
         <where>
+
             and comment.module = '活动'
+            AND activity.id IS NOT NULL -- 确保 activity 表中有与 comment 表匹配的记录
             <if test="name != null"> and activity.name like concat('%', #{name}, '%')</if>
             <if test="userId != null">  and comment.user_id = #{userId}</if>
         </where>

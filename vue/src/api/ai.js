@@ -17,3 +17,13 @@ export function hisData(params) {
         params
     })
 }
+// 注意：这里的data和params都是固定写法，形参的变量名只能是这两个
+export function Aichat(FUNCTION, data, params) {
+    return request({
+        url: `/Ai/test/?id=${FUNCTION}`,
+        method: 'post',
+        data, // 相当于 data:data
+        params // 相当于 params:params
+    })
+}
+

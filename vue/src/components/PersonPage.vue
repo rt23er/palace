@@ -37,7 +37,7 @@
     <el-dialog title="修改密码" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="user" label-width="80px" style="padding-right: 20px" :rules="rules" ref="formRef">
         <el-form-item label="原始密码" prop="password">
-          <el-input show-password v-model="user.password" placeholder="原始密码"></el-input>
+          <el-input show-password v-model="password" placeholder="原始密码"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
           <el-input show-password v-model="user.newPassword" placeholder="新密码"></el-input>
@@ -69,6 +69,7 @@ export default {
     }
     return {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+        password: '',
       dialogVisible: false,
 
       rules: {
@@ -90,7 +91,12 @@ export default {
   methods: {
     update() {
       // 保存当前的用户信息到数据库
-      this.$request.put('/user/update', this.user).then(res => {
+      this.$request.put('/user/update', {
+          confirmPassword: this.user.confirmPassword ,
+          password:this.password,
+          newPassword:this.user.newPassword,
+
+      }).then(res => {
         if (res.code === '200') {
           // 成功更新
           this.$message.success('保存成功')
@@ -112,6 +118,7 @@ export default {
     updatePassword() {
       this.dialogVisible = true
     },
+
     save() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {

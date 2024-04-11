@@ -1,74 +1,87 @@
 <template>
   <!-- 整体布局 -->
-    <div id="rg">
-        <div class="container right-panel-active">
-            <!-- 注册框 -->
-            <div class="container_from container--signup">
-                <el-form  :model="form" :rules="rules1" ref="formRef"
-                          action="#" class="from" id="from1">
-                    <h2 class="from_title"> 注册账号</h2>
-                    <input type="text" placeholder="用户名" class="input"  v-model="form.username" prop="username">
+   <div>
+       <div class=".container">
+           <div>
+               <div id="rg">
+                   <div class="container right-panel-active">
+                       <!-- 注册框 -->
+                       <div class="container_from container--signup">
+                           <el-form  :model="form" :rules="rules1" ref="formRef"
+                                     action="#" class="from" id="from1">
+                               <h2 class="from_title"> 注册账号</h2>
+                               <input type="text" placeholder="用户名" class="input"  v-model="form.username" prop="username">
 
-                    <input type="email" placeholder="请输入密码" class="input" prop="password" v-model="form.password">
-                    <input type="password" placeholder="请确认密码" class="input"  prop="confirmPass"  v-model="form.confirmPass">
-
-
-                    <el-button class="btn" style=" background-color: #2a60c9; border-color: #2a60c9; color: white" @click="register">点击注册</el-button>
-                </el-form>
-            </div>
-            <!-- 登录框 -->
-            <div class="container_from container--signin">
-                <el-form action="#" class="from" id="from2" :model="form" :rules="rules2" ref="formRef">
-                    <h2 class="from_title">欢迎登录</h2>
-                    <input type="text" placeholder="请输入用户名" class="input" prop="username" v-model="form.username">
-                    <input type="password" placeholder="请输入密码" class="input" prop="password" v-model="form.password">
-<!--                    <a href="#" class="link">忘记密码</a>-->
-                    <el-form-item prop="role">
-                        <el-radio-group v-model="form.role">
-                            <el-radio label="ADMIN">管理员</el-radio>
-                            <el-radio label="USER">用户</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item prop="code">
-                        <div style="display: flex">
-                            <el-input style="flex: 1" size="medium" v-model="code"></el-input>
-                            <Identify :identifyCode="identifyCode" @click.native="refreshCode" />
-                        </div>
-                    </el-form-item>
-                    <button class="btn" @click="login">登录</button>
-                </el-form>
-            </div>
-
-            <!--   -->
-            <div class="container_overlay">
-
-                <div class="overlay">
-                    <div class="overlay_panel  overlay--left">
-                        <button class="btn" id="signup-btn">已有账号 ，直接登录</button>
-                    </div>
+                               <input type="email" placeholder="请输入密码" class="input" prop="password" v-model="form.password">
+                               <input type="password" placeholder="请确认密码" class="input"  prop="confirmPass"  v-model="form.confirmPass">
 
 
-                    <div class="overlay_panel  overlay--right">
-                        <button class="btn" id="signin-btn">没有账号，点击注册</button>
-                    </div>
-                </div>
-            </div>
+                               <el-button class="btn" style=" background-color: #2a60c9; border-color: #2a60c9; color: white" @click="register">点击注册</el-button>
+                           </el-form>
+                       </div>
+                       <!-- 登录框 -->
+                       <div class="container_from container--signin">
+                           <el-form action="#" class="from" id="from2" :model="form" :rules="rules2" ref="formRef">
+                               <h2 class="from_title">欢迎登录</h2>
+                               <input type="text" placeholder="请输入用户名" class="input" prop="username" v-model="form.username">
+                               <input type="password" placeholder="请输入密码" class="input" prop="password" v-model="form.password">
+                               <!--                    <a href="#" class="link">忘记密码</a>-->
+                               <el-form-item prop="role">
+                                   <el-radio-group v-model="form.role">
+                                       <el-radio label="ADMIN">管理员</el-radio>
+                                       <el-radio label="USER">用户</el-radio>
+                                   </el-radio-group>
+                               </el-form-item>
+                               <el-form-item prop="code">
+                                   <div style="display: flex">
+                                       <el-input style="flex: 1" size="medium" v-model="code"></el-input>
+                                       <Identify :identifyCode="identifyCode" @click.native="refreshCode" />
+                                   </div>
+                               </el-form-item>
+                               <button class="btn" @click="login">登录</button>
+                           </el-form>
+                       </div>
+
+                       <!--   -->
+                       <div class="container_overlay">
+
+                           <div class="overlay">
+                               <div class="overlay_panel  overlay--left">
+                                   <button class="btn" id="signup-btn">已有账号 ，直接登录</button>
+                               </div>
 
 
-        </div>
-    </div>
+                               <div class="overlay_panel  overlay--right">
+                                   <button class="btn" id="signin-btn">没有账号，点击注册</button>
+                               </div>
+                           </div>
+                       </div>
+
+
+                   </div>
+
+               </div>
+
+           </div>
+       </div>
+      <div class="container1">
+          <Pic3D/>
+      </div>
+   </div>
 
 </template>
 
 <script>
 // 引入验证组件
 import Identify from "@/components/Identify";
+import Pic3D from "@/components/3D";
 export default {
     name: "LoginRegister"
 
     ,
     components: {
-        Identify
+        Identify,
+        Pic3D
     },
     mounted() {
         this.init() ;
@@ -223,11 +236,22 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 /* 使用味伪类元素设置参数 自定义属性使用var进行访问*/
 @import "@/assets/css/Login&Register.css";
 .input.el-input {
     background: #2a60c9;
     height: 20%;
+}
+.container {
+  position: absolute;
+   width: 100vw;
+    height: 80vh;
+    z-index: 100;
+}
+.container1{
+    position: absolute;
+    z-index: -10000!important;
+    transform: translateY(-100vh);
 }
 </style>

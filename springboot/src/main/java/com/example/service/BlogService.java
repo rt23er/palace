@@ -199,6 +199,7 @@ public class BlogService {
         PageInfo<Blog> pageInfo = PageInfo.of(list);
         List<Blog> blogList = pageInfo.getList();
         for (Blog b : blogList) {
+
             int likesCount = likesService.selectByFidAndModule(b.getId(), LikesModuleEnum.BLOG.getValue());
             b.setLikesCount(likesCount);
         }

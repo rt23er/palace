@@ -8,4 +8,6 @@ public class AiQuestion {
      * 用户问题
      */
     String Question;
+
+    String id;
 }
