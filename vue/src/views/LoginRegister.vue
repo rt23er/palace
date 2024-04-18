@@ -210,9 +210,32 @@ export default {
                     this.$request.post('/login', this.form).then(res => {
                         if (res.code === '200') {
                             console.log(res.data)
-                            // sessionStorage.setItem('userid', response.data.username);
-                            localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
-                            this.$message.success('登录成功')
+                            // 如果是管理员 弹出登录成功
+                            if(res.data.role === 'USER'){
+                                //     判断当前是否处于登录时间段
+
+                                let now = new Date();
+                                console.log("当前时间是")
+                                console.log(now.getHours())
+                                if(now.getHours() >= 0 && now.getHours() <= 24){
+                                    // sessionStorage.setItem('userid', response.data.username);
+                                    localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
+                                    this.$message.success('登录成功')
+                                }
+                                else{
+                                    this.$message.error('当前时间不在登录时间段内')
+                                    return
+                                    // 弹出提示
+                                }
+
+                            }
+                            else if(res.data.role === 'ADMIN'){
+
+                                localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
+                                this.$message.success('登录成功')
+                                // 如果是管理员 弹出登录成功
+                            }
+
                             setTimeout(() => {
                                 // 跳转主页
                                 if (res.data.role === 'ADMIN') {

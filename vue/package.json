@@ -7,17 +7,21 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@vueuse/core": "^10.9.0",
     "axios": "^1.5.1",
     "core-js": "^3.8.3",
+    "echarts": "^5.5.0",
     "element-ui": "^2.15.14",
     "github-markdown-css": "^5.5.1",
     "highlight.js": "^11.9.0",
+    "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
     "marked": "^12.0.1",
     "node-sass": "^9.0.0",
     "sass-loader": "^14.1.1",
     "three": "^0.163.0",
-    "vue": "^2.6.14",
+    "video.js": "^8.10.0",
+    "vue": "^2.7.16",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2",
     "wangeditor": "^4.7.15"

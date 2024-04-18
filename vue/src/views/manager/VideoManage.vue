@@ -124,12 +124,12 @@ export default {
             rules: {
                 videoName: [
                     {required: true, message: '请输入标题名称', trigger: 'blur'},
-                    {min: 3, max: 10, message: '长度在 3 到 10个字符', trigger: 'blur'}
+                    {min: 3, max: 100, message: '长度在 3 到 10个字符', trigger: 'blur'}
                 ],
 
                 description: [
                     {required: true, message: '请输入视频简介', trigger: 'blur'},
-                    {min: 20, max: 100, message: '长度在 20 到 100个字符', trigger: 'change'}
+                    {min: 1, max: 100, message: '长度在 20 到 100个字符', trigger: 'change'}
                 ],
                 videoPng: [
                     {required: true, message: '请上传视频封面', trigger: 'change'},
@@ -169,7 +169,7 @@ export default {
         beforeUpload(file) {
             const isMP4 = file.type === 'video/mp4'
             const isAVI = file.type === 'video/x-msvideo'
-            const isLt50M = file.size / 1024 / 1024 < 50
+            const isLt50M = file.size / 1024 / 1024 < 1024
 
             if (!isMP4 && !isAVI) {
                 this.$message.error('只能上传 MP4 或 AVI 格式的视频')

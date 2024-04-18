@@ -13,7 +13,7 @@
                         <el-menu-item index="/front/home" @click="CardShow">首页</el-menu-item>
                         <el-menu-item index="/front/activity">活动中心</el-menu-item>
                         <el-menu-item index="/front/person">个人中心</el-menu-item>
-                        <el-menu-item index="/front/video">视频中心</el-menu-item>
+                        <el-menu-item index="/front/video1">视频中心</el-menu-item>
                         <el-menu-item index="/front/aiChat">AI助手</el-menu-item>
                         <el-menu-item index="/front/train" >训练中心</el-menu-item>
                     </el-menu>

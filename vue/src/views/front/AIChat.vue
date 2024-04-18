@@ -3,7 +3,7 @@
         <div class="left">
             <!--             AI图标-->
             <div class="Aicon"><i class="iconfont icon-chatgpt"></i></div>
-            <i>chatGPT3.5 </i>
+            <i>MY-CHAT </i>
             <i class="span"></i>
             <div class="AImode" @click="trigger">
                 <i class="iconfont icon-ai"> </i>
@@ -22,7 +22,7 @@
             <div class="chat hide_scrollbar" @scroll="stopTimmer">
                 <li v-for="(item , index) in userChats" :index="index" class="chat-history-item">
                     <i class="iconfont icon-duihua"></i>
-                    <a  :href="`#mes${index}`" class="chat-history-message">{{ item.userMessage }}</a>
+                    <a  :href="`#mes${index}`" class="chat-history-message">{{item.userMessage.substring(0,8)}}...</a>
 
                 </li>
 
@@ -57,7 +57,8 @@
             <div class="post">
 
                 <input placeholder="请输入你的问题" type="text" v-model="newMessage">
-                <i @click="sendMessage" class="iconfont icon-send"></i>
+                <i @click="sendMessage" class="iconfont icon-send" v-if="!isSend"></i>
+                <i class="iconfont icon-jiazai" v-if="isSend"></i>
             </div>
         </div>
     </div>
@@ -73,7 +74,9 @@ export default {
     name: 'AiChat',
     data() {
         return {
+            isSend: false,
             characters: ['李白', '音乐人', '记忆大师'],
+            BarChats:{},
             Ishow: false,
             messages: [],
             Gmessages: [],
@@ -171,12 +174,11 @@ export default {
 
         async init(id) {
             //同步获取用户信息
-            this.userChats = await this.getHistoryData(id).then(res => {
+         const res = await this.getHistoryData(id).then(res => {
+
 
             })
-            // 将用户聊天的问题存储到message
 
-            console.log(this.userChats)
 
 
             // this.$nextTick(()=>{
@@ -188,7 +190,9 @@ export default {
             this.Ishow = !this.Ishow
         },
         async sendMessage() {
+
             if (this.newMessage.trim() !== '') {
+                this.isSend = true
                 let L = this.messages.length
                 this.$set(this.messages, L, this.newMessage,);
                 this.startTimmer();
@@ -204,31 +208,23 @@ export default {
 
                     id: `${this.UserId}`,
                     question: this.newMessage // 发送编码后的消息
-                }).then(response => {
-                    this.startTimmer()
+                }).then(
+                    response => {
                     // 接受返回的名称
+                    this.isSend = false
                     const {data} = response
                     this.Gmessages.push(`ChatGPT: ${data}`)
-                    // this.getHistoryData(this.UserId)
                     console.log(this.newMessage)
-                    if (this.userChats.length === 10) {
-                        // this.userChats.shift()
                         let L = this.userChats.length
-                        // console.log("信息系"+this.newMessage)
-                        this.chat.userMessage = this.newMessage
+                        this.chat.userMessage = this.newMessage.slice(0, 10)
                         this.$set(this.userChats, L, this.chat,);
+                        // 绑定事件
+                        this.$nextTick(()=>{
+                            this.goChat()
+                            this.startTimmer()
+                        })
                         console.log(this.userChats)
-
-
-                    } else {
-                        let L = this.userChats.length
-                        this.chat.userMessage = this.newMessage
-                        this.$set(this.userChats, L, this.chat,);
-                        console.log(this.userChats)
-
-                    }
-
-                    this.newMessage = ''
+                         this.newMessage = ''
 
                 }).catch(_error => {
                     this.startTimmer()
@@ -292,6 +288,18 @@ a{
     width: 100%;
     height: 100%;
 }
+@keyframes mes_loading {
+     // 定义动画的初始状态 开始旋转0
+     0% {
+         transform: rotate(0deg);
+     }
+     // 定义动画的结束状态 旋转360度
+     100% {
+         transform: rotate(360deg);
+     }
+ }
+
+
 .AI {
 
   display: flex;
@@ -482,6 +490,14 @@ a{
       line-height: 10vh;
       transform: translateX(-10vw);
     }
+      .icon-jiazai{
+          font-size: 5vh;
+          color: #729f86;
+          line-height: 10vh;
+          transform: translateX(-10vw);
+          transition: all 1s linear;
+          animation:mes_loading 3s  linear infinite ;
+      }
 
     input {
       width: 80%;
@@ -491,6 +507,7 @@ a{
       margin: 2vh auto;
       display: block;
       outline: none;
+
     }
   }
 

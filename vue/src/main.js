@@ -9,6 +9,10 @@ import '@/assets/css/iconfont/iconfont.css'
 import 'highlight.js/styles/monokai-sublime.css'
 import store from './store'
 import request from "@/utils/request";
+import Video from 'video.js'
+import 'video.js/dist/video-js.css'
+Vue.prototype.$video = Video
+
 
 Vue.config.productionTip = false
 

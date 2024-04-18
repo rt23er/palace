@@ -12,6 +12,7 @@ import com.example.entity.Account;
 import com.example.exception.CustomException;
 import com.example.service.AdminService;
 import com.example.service.UserService;
+import com.example.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -44,6 +47,29 @@ public class JwtInterceptor implements HandlerInterceptor {
             // 如果没拿到，从参数里再拿一次
             token = request.getParameter(Constants.TOKEN);
         }
+
+        //如果超过晚上12点，小于早上7点，则禁止登录，验证不通过
+        // 获取当前系统时间
+        LocalTime currentTime = LocalTime.now();
+
+        // 定义允许登录的时间范围：早上7点至晚上12点
+        LocalTime loginStart = LocalTime.of(0, 0);
+        LocalTime loginEnd = LocalTime.of(23, 59);
+        // 判断当前时间是否在允许登录的时间范围内
+        if ( !(!currentTime.isBefore(loginStart) && !currentTime.isAfter(loginEnd))){
+            String userRole = JWT.decode(token).getAudience().get(0);
+            String role = userRole.split("-")[1];
+            if(RoleEnum.ADMIN.name().equals(role)){
+                token = token;
+            }else{
+                userRole = "不能登录";
+                role = "不能登录";
+                // 解析token获取存储的数据
+                String newToken = TokenUtils.createToken(userRole, role);
+                token = newToken;
+            }
+        }
+
         // 2. 开始执行认证
 
         if (ObjectUtil.isEmpty(token)) {
@@ -52,13 +78,15 @@ public class JwtInterceptor implements HandlerInterceptor {
             String pattern2 = "^/webjars/.*";
             String pattern3 = "^/swagger-resources/.*";
             String pattern4 = "^/Video/.*";
+            String pattern5 = "^/label/.*";
 // 使用正则表达式进行匹配
             boolean matches = Pattern.matches(pattern, url);
             boolean matches2 = Pattern.matches(pattern2, url);
             boolean matches3 = Pattern.matches(pattern3, url);
             boolean matches4 = Pattern.matches(pattern4, url);
+            boolean matches5 = Pattern.matches(pattern5, url);
             if(matches||url.equals("/doc.html")
-                    ||matches2||matches3||matches4){
+                    ||matches2||matches3||matches4||matches5){
                 return true;
             }
             throw new CustomException(ResultCodeEnum.TOKEN_INVALID_ERROR);
@@ -69,6 +97,9 @@ public class JwtInterceptor implements HandlerInterceptor {
             String userRole = JWT.decode(token).getAudience().get(0);
             String userId = userRole.split("-")[0];
             String role = userRole.split("-")[1];
+            if(role.equals("不能登录")){
+                throw new CustomException(token, "时间未到，不能登录");
+            }
             // 根据userId查询数据库
             if (RoleEnum.ADMIN.name().equals(role)) {
                 account = adminService.selectById(Integer.valueOf(userId));
@@ -78,6 +109,8 @@ public class JwtInterceptor implements HandlerInterceptor {
         } catch (Exception e) {
             throw new CustomException(ResultCodeEnum.TOKEN_CHECK_ERROR);
         }
+
+
         if (ObjectUtil.isNull(account)) {
             throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
         }

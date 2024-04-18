@@ -24,11 +24,14 @@ const routes = [
       { path: 'notice', name: 'Notice', meta: { name: '公告信息' }, component: () => import('../views/manager/Notice') },
       { path: 'user', name: 'User', meta: { name: '用户信息' }, component: () => import('../views/manager/User') },
       { path: 'category', name: 'Category', meta: { name: '博客分类' }, component: () => import('../views/manager/Category') },
+      { path: 'label', name: 'label', meta: { name: '标签分类' }, component: () => import('../views/manager/label.vue') },
       { path: 'blog', name: 'Blog', meta: { name: '博客信息' }, component: () => import('../views/manager/Blog') },
       { path: 'videoManage', name: 'videoManage', meta: { name: '视频管理' }, component: () => import('../views/manager/VideoManage.vue') },
       { path: 'activity', name: 'Activity', meta: { name: '活动信息' }, component: () => import('../views/manager/Activity') },
       { path: 'comment', name: 'Comment', meta: { name: '评论信息' }, component: () => import('../views/manager/Comment') },
       { path: 'activitySign', name: 'ActivitySign', meta: { name: '活动报名' }, component: () => import('../views/manager/ActivitySign') },
+      { path: 'BigScreen', name: 'BigScreen', meta: { name: '大屏展示' }, component: () => import('../views/manager/BigScreen/Bigscreen.vue') },
+
     ]
   },
   {
@@ -44,7 +47,16 @@ const routes = [
       { path: 'activityDetail', name: 'ActivityDetail', meta: { name: '活动详情' }, component: () => import('../views/front/ActivityDetail') },
       { path: 'newBlog', name: 'NewBlog', meta: { name: '博客编辑' }, component: () => import('../views/front/NewBlog') },
       { path: 'video', name: 'Video', meta: { name: '视频中心' }, component: () => import('../views/front/Video') },
-      { path: 'train', name: 'Train', meta: { name: '训练中心' }, component: () => import('../views/front/Training') },
+      { path: 'video1', name: 'Video1', meta: { name: '视频中心1' }, component: () => import('../views/front/videoDemo.vue') },
+      { path: 'train', name: 'Train', meta: { name: '训练中心' }, component: () => import('../views/front/Train/Training.vue') ,
+          children:[
+            { path: 'train3D', name: 'Train3D', meta: { name: '3d训练' }, component: () => import('../views/front/Train/Train3D.vue')},
+
+            { path: 'trainBar', name: 'TrainBar', meta: { name: '训练选择面板' }, component: () => import('../views/front/Train/TrainBar.vue')}
+
+
+              ]
+      },
       { path: 'aiChat', name: 'AiChat', meta: { name: 'AI助手中心' }, component: () => import('../views/front/AIChat') },
 
 

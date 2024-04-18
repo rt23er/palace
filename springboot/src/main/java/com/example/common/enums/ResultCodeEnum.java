@@ -1,5 +1,7 @@
 package com.example.common.enums;
 
+import org.jetbrains.annotations.Contract;
+
 public enum ResultCodeEnum {
     SUCCESS("200", "成功"),
 
@@ -15,6 +17,7 @@ public enum ResultCodeEnum {
     USER_NOT_EXIST_ERROR("5004", "用户不存在"),
     PARAM_PASSWORD_ERROR("5005", "原密码输入错误"),
     ACTIVITY_SIGN_ERROR("5006", "活动已报名"),
+
     ;
 
     public String code;

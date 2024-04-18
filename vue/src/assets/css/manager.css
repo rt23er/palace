@@ -5,8 +5,11 @@
 
 .manager-header {
     display: flex;
-    background-color: #0066bc;
+    /*background-color: #0066bc;*/
+    background: linear-gradient(45deg, rgba(85, 157, 74, 0.8), rgba(31, 175, 120, 0.9));;
+
 }
+
 
 .manager-header-left {
     width: 200px;
@@ -71,7 +74,7 @@
 .manager-main-right {
     flex: 1;
     width: 0;
-    padding: 10px;
+    padding: 0px;
 }
 
 .manager-main-right .search {
@@ -127,7 +130,7 @@
 }
 
 .el-menu-item.is-active {
-    background-color: #1890ff !important;
+    background-color: rgba(59, 157, 72, 0.6) !important;
     color: #fff;
 }
 
@@ -150,7 +153,7 @@
 
 .el-menu-item:hover {
     color: #fff !important;
-    background-color: #46a6ff !important;
+    background-color: rgba(81, 117, 64, 0.7) !important;
 }
 
 .el-submenu__icon-arrow {
